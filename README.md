@@ -86,3 +86,15 @@ Personal files go to the Trash/Recycle Bin. `~/.ssh`, `~/.gnupg`, keys, mail and
 ## Licença / License
 
 MIT. Ver `LICENSE`.
+
+## Limpador RAM (Linux)
+
+Monitor de memória em tempo real, instalado junto com o Limpador (menu: **Limpador RAM**, ou `limpador-ram` no terminal).
+
+- Mostra a RAM, a swap e a **pressão de memória**, o indicador que diz se o computador está mesmo lento por falta de RAM.
+- Agrupa os processos por aplicação (por exemplo, todos os processos do Chrome numa linha) e deixa fechar o que não precisas.
+- **Modo automático (opcional):** quando a memória aperta, fecha sozinho as apps marcadas na coluna *Auto*, as maiores primeiro e só se estiverem paradas há algum tempo. Nunca toca em programas do sistema, do ambiente de trabalho ou de outros utilizadores. Cada ação fica registada em `~/.limpador/ram-registo.txt`.
+- **Vigiar sempre:** continua a trabalhar com a janela fechada e arranca com o computador.
+- `limpador-ram --estado` mostra um resumo rápido no terminal.
+
+Não há botão de "libertar RAM": a cache do Linux acelera o computador e esvaziá-la à força deixa-o mais lento.

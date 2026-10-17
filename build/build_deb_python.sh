@@ -6,7 +6,7 @@
 # Correr: bash build/build_deb_python.sh
 set -e
 cd "$(dirname "$0")/.."
-VERSAO="${VERSAO:-1.0}"
+VERSAO="${VERSAO:-1.1}"
 [ -f icons/icon_256.png ] || python3 make_icons.py
 
 PKG="dist/deb/limpador_${VERSAO}_all"
@@ -21,6 +21,24 @@ exec /usr/bin/python3 /opt/limpador/limpador.py "$@"
 RUN
 chmod 755 "$PKG/usr/bin/limpador"
 install -m 644 icons/icon_256.png "$PKG/usr/share/icons/hicolor/256x256/apps/limpador.png"
+install -m 644 icons/icon_256.png "$PKG/usr/share/icons/hicolor/256x256/apps/limpador-ram.png"
+install -m 755 ram/limpador_ram.py "$PKG/opt/limpador/limpador_ram.py"
+cat > "$PKG/usr/bin/limpador-ram" <<'RUN'
+#!/bin/sh
+exec /usr/bin/python3 /opt/limpador/limpador_ram.py "$@"
+RUN
+chmod 755 "$PKG/usr/bin/limpador-ram"
+cat > "$PKG/usr/share/applications/limpador-ram.desktop" <<'DESK'
+[Desktop Entry]
+Type=Application
+Name=Limpador RAM
+Comment=Memória em tempo real: vê o que está a pesar e fecha o que não precisas
+Exec=limpador-ram
+Icon=limpador-ram
+Terminal=false
+Categories=System;Monitor;Utility;
+Keywords=ram;memória;memory;swap;monitor;
+DESK
 install -m 644 LICENSE "$PKG/usr/share/doc/limpador/copyright"
 
 cat > "$PKG/usr/share/applications/limpador.desktop" <<'DESK'
@@ -44,9 +62,11 @@ Architecture: all
 Depends: python3 (>= 3.8)
 Maintainer: hmptbr <https://github.com/hmptbr/LimpadordeDiscos>
 Homepage: https://github.com/hmptbr/LimpadordeDiscos
-Description: Liberta espaço no disco com segurança
+Recommends: libnotify-bin
+Description: Liberta espaço no disco e vigia a memória RAM
  Analisa o computador, explica o que ocupa espaço e só apaga depois
- de confirmares. Free up disk space safely.
+ de confirmares. Inclui o Limpador RAM, um monitor de memória em
+ tempo real que fecha apps paradas quando a RAM acaba.
 CTRL
 
 cat > "$PKG/DEBIAN/postinst" <<'POST'

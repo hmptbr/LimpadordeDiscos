@@ -9,6 +9,7 @@ PKG="dist/Limpador-linux"
 rm -rf "$PKG" && mkdir -p "$PKG"
 install -m 755 limpador.py "$PKG/limpador.py"
 install -m 644 icons/icon_256.png "$PKG/limpador.png"
+install -m 755 ram/limpador_ram.py "$PKG/limpador_ram.py"
 cat > "$PKG/install.sh" <<'INST'
 #!/bin/bash
 set -e
@@ -29,7 +30,20 @@ Icon=$HOME/.local/share/icons/limpador.png
 Terminal=true
 Categories=System;Utility;
 DESK
-echo "Instalado. Procura 'Limpador' no menu de aplicações, ou corre: limpador"
+install -m 755 "$AQUI/limpador_ram.py" "$HOME/.local/share/limpador/limpador_ram.py"
+printf '#!/bin/sh\nexec python3 "%s" "$@"\n' "$HOME/.local/share/limpador/limpador_ram.py" > "$HOME/.local/bin/limpador-ram"
+chmod 755 "$HOME/.local/bin/limpador-ram"
+cat > "$HOME/.local/share/applications/limpador-ram.desktop" <<DESK
+[Desktop Entry]
+Type=Application
+Name=Limpador RAM
+Comment=Memória em tempo real: vê o que está a pesar e fecha o que não precisas
+Exec=$HOME/.local/bin/limpador-ram
+Icon=$HOME/.local/share/icons/limpador.png
+Terminal=false
+Categories=System;Monitor;Utility;
+DESK
+echo "Instalado. Procura 'Limpador' e 'Limpador RAM' no menu de aplicações."
 INST
 chmod 755 "$PKG/install.sh"
 tar -czf dist/Limpador-linux.tar.gz -C dist Limpador-linux
