@@ -31,7 +31,7 @@ Descarrega o instalador do teu sistema (separador *Releases* do projeto) e dá d
 
 | Sistema | Ficheiro | O que acontece |
 |---|---|---|
-| **macOS** | `Limpador.pkg` (ou `Limpador.dmg`) | O assistente instala o **Limpador** em Aplicações. Abre-o pelo Launchpad ou pelo Finder. |
+| **macOS** | `Limpador.pkg` (ou `Limpador.dmg` / `Limpador-mac.zip`) | O assistente instala o **Limpador** em Aplicações. Abre-o pelo Launchpad ou pelo Finder. Precisa do Python 3 (se faltar, a app oferece-se para o instalar). |
 | **Windows** | `Limpador-Setup.exe` | O assistente instala, cria atalho no menu Iniciar (e, se quiseres, no Ambiente de Trabalho) e abre o programa no fim. |
 | **Linux (Ubuntu, Debian, Mint)** | `limpador_1.0_amd64.deb` | Duplo clique abre a loja de aplicações; ou `sudo apt install ./limpador_1.0_amd64.deb`. Aparece **Limpador** no menu. |
 
@@ -55,6 +55,7 @@ python3 limpador.py --lang en  # inglês
 pip install pyinstaller pillow numpy
 python make_icons.py            # cria icons/ (png, ico, icns, svg)
 bash build/build_mac.sh         # macOS  -> dist/Limpador.app, .dmg e .pkg (instalador)
+bash build/build_mac_python.sh  # macOS sem PyInstaller -> .zip, .dmg e .pkg (corre num Mac ou no Linux, ver o início do script)
 build\build_windows.bat         # Windows -> dist\Limpador.exe (o instalador Setup.exe usa o Inno Setup: iscc installer\windows\Limpador.iss)
 bash build/build_linux.sh && bash build/build_deb.sh   # Linux -> .tar.gz e .deb (instalador)
 ```
